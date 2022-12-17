@@ -26,8 +26,6 @@ public class DatabaseConnector {
             System.err.println(e.getMessage());
             return false;
         }
-
-        System.out.println("Conectado!");
         return true;
     }
 
@@ -42,7 +40,6 @@ public class DatabaseConnector {
             System.err.println(e.getMessage());
             return false;
         }
-        System.out.println("Desconectado!");
         return true;
     }
 
@@ -55,11 +52,11 @@ public class DatabaseConnector {
             return null;
         }
     }
-    
-    public PreparedStatement prepararConsulta(String sql){
+
+    public PreparedStatement prepararConsulta(String sql) {
         try {
             return this.conexao.prepareStatement(sql, 0);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             return null;
         }
     }
@@ -79,14 +76,14 @@ public class DatabaseConnector {
 
             while ((linha = bufferReader.readLine()) != null) {
                 if ((!linha.startsWith("--")) && (!linha.startsWith("/*")) && (!linha.trim().equals(""))) {
-                   stringBuffer.append(linha); 
+                    stringBuffer.append(linha);
                 }
             }
-            
+
             bufferReader.close();
-            
+
             String[] linhas = stringBuffer.toString().split(";");
-            
+
             return linhas;
         } catch (Exception e) {
             e.printStackTrace();

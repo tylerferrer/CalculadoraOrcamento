@@ -32,7 +32,8 @@ public class CalculadoraOrcamento {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Por favor, insira os dados do orçamento:");
+        System.out.println("\nPor favor, insira os dados do orçamento:");
+        System.out.println("-----------------------------------------------------------");
         System.out.println("Nome do desenvolvedor:");
         desenvolvedor.setNome(sc.nextLine());
         System.out.println("Disponibilidade diaria do desenvolvedor em horas:");
@@ -40,14 +41,14 @@ public class CalculadoraOrcamento {
         System.out.println("Valor mensal desejado pelo desenvolvedor:");
         desenvolvedor.setValorMensalDesejado(sc.nextFloat());
 
-        System.out.println("Escolha os itens de sistema que deseja incluir no orçamento:");
-        
+        System.out.println("\n\nEscolha os itens de sistema que deseja incluir no orçamento:\n");
+
         System.out.println("------------------------------------------------------------------------------------------------------");
         System.out.println("| Opcao | Tipo de Item de sistema                                 | Dificuldade | Quantidade de horas |");
         System.out.println("------------------------------------------------------------------------------------------------------");
         System.out.println("|   " + "1" + "   | " + "Telas com entradas e saidas de dados                   " + " |     " + "1" + "        |         " + "8" + "          |");
         ItemDeSistema item1 = new ItemDeSistema(1, "Telas com entradas e saidas de dados", 1, 8);
-        
+
         System.out.println("------------------------------------------------------------------------------------------------------");
         System.out.println("| Opcao | Tipo de Item de sistema                                 | Dificuldade | Quantidade de horas |");
         System.out.println("------------------------------------------------------------------------------------------------------");
@@ -84,13 +85,13 @@ public class CalculadoraOrcamento {
         System.out.println("------------------------------------------------------------------------------------------------------");
         System.out.println("|   " + "7" + "   | " + "Gravacao de dados                                       " + " |     " + "1" + "      |         " + "16" + "          |");
         ItemDeSistema item7 = new ItemDeSistema(7, "Gravacao de dados", 1, 16);
-    
+
         System.out.println("------------------------------------------------------------------------------------------------------");
         System.out.println("| Opcao | Tipo de Item de sistema                                 | Dificuldade | Quantidade de horas |");
         System.out.println("------------------------------------------------------------------------------------------------------");
         System.out.println("|   " + "8" + "   | " + "Gravacao de dados                                       " + " |     " + "2" + "      |         " + "24" + "          |");
         ItemDeSistema item8 = new ItemDeSistema(8, "Gravacao de dados", 2, 24);
-  
+
         System.out.println("------------------------------------------------------------------------------------------------------");
         System.out.println("| Opcao | Tipo de Item de sistema                                 | Dificuldade | Quantidade de horas |");
         System.out.println("------------------------------------------------------------------------------------------------------");
@@ -113,24 +114,24 @@ public class CalculadoraOrcamento {
         System.out.println("| Opcao | Tipo de Item de sistema                                 | Dificuldade | Quantidade de horas |");
         System.out.println("------------------------------------------------------------------------------------------------------");
         System.out.println("|   " + "12" + "   | " + "Algoritmos com processamentos                         " + " |     " + "3" + "      |         " + "36" + "          |");
-        System.out.println("------------------------------------------------------------------------------------------------------"); 
+        System.out.println("------------------------------------------------------------------------------------------------------");
         ItemDeSistema item12 = new ItemDeSistema(12, "Algoritmos com processamentos", 3, 36);
-        
+
         String itensDeSistema = "";
         int horasTotais = 0;
 
         int quantEscolhas = 0;
         int opcao = 0;
         boolean continuar = true;
-        do{
-            if(quantEscolhas == 0) {
+        do {
+            if (quantEscolhas == 0) {
                 quantEscolhas = 1;
-                System.out.print("Item: ");
+                System.out.print("\nItem: ");
             } else if (quantEscolhas > 0) {
-                System.out.print("Escolha outro item: ");
+                System.out.print("\nEscolha outro item: ");
             }
             opcao = MenuData();
-            switch(opcao){
+            switch (opcao) {
                 case 1:
                     itensDeSistema += item1.getTipo() + " - " + item1.getTempoEmpregado() + " horas; \n";
                     horasTotais += item1.getTempoEmpregado();
@@ -180,13 +181,13 @@ public class CalculadoraOrcamento {
                     horasTotais += item12.getTempoEmpregado();
                     break;
             }
-            
-            System.out.println("Deseja continuar? (s/n)");
+
+            System.out.println("\nDeseja continuar? (s/n)");
             String opcaoContinuar = sc.next();
-            if(opcaoContinuar.equals("n")){
+            if (opcaoContinuar.equals("n")) {
                 continuar = false;
             }
-       } while(continuar);
+        } while (continuar);
 
         Orcamento orcamento = new Orcamento(database);
 
@@ -194,14 +195,13 @@ public class CalculadoraOrcamento {
         orcamento.setDesenvolvedor(desenvolvedor.getNome());
         orcamento.setHorasTotais(horasTotais);
         orcamento.calcularCustoFinal(desenvolvedor.horasTrabalhadasMes());
-        
 
         orcamento.inserirOrcamento(
                 orcamento.getItensDeSistema(),
                 orcamento.getDesenvolvedor(),
                 orcamento.getHorasTotais(),
                 orcamento.getCustoFinal());
-                
+
         orcamento.listarOrcamentos();
     }
 

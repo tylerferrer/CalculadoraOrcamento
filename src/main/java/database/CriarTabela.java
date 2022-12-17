@@ -8,27 +8,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CriarTabela {
-     private final DatabaseConnector database;
-     
-     public CriarTabela(DatabaseConnector conector) {
+
+    private final DatabaseConnector database;
+
+    public CriarTabela(DatabaseConnector conector) {
         this.database = conector;
     }
-     
+
     public void createTable() throws SQLException {
         boolean conectou = false;
         try {
             final String[] sql = database.readFile("TabelaOrcamento.sql");
-            
+
             conectou = database.conectar();
-            
-       
+
             Statement consulta = database.criarConsulta();
-            
+
             for (String sql1 : sql) {
-                consulta.execute(sql1);  
+                consulta.execute(sql1);
             }
-            
-            System.out.println("Tabela criada!");
+
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -36,5 +35,5 @@ public class CriarTabela {
                 database.desconectar();
             }
         }
-    } 
+    }
 }

@@ -6,6 +6,8 @@ package database;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Orcamento {
 
@@ -82,7 +84,7 @@ public class Orcamento {
 
     public void calcularCustoFinal(float horasTrabalhadasMes) {
         float valorTotalDesenvolvedor = horasTrabalhadasMes * horasTotais;
-        setCustoFinal((float) (valorTotalDesenvolvedor + (valorTotalDesenvolvedor * 0.3)) );
+        setCustoFinal((float) (valorTotalDesenvolvedor + (valorTotalDesenvolvedor * 0.3)));
     }
 
     public void inserirOrcamento(String itensDeSistema, String desenvolvedor, int horasTotais, float custoFinal) throws SQLException {
@@ -115,7 +117,7 @@ public class Orcamento {
             if (consulta != null) {
                 try {
                     consulta.close();
-                } catch (SQLException ex){
+                } catch (SQLException ex) {
                     System.err.println(ex.getMessage());
                 }
             }
@@ -128,25 +130,36 @@ public class Orcamento {
     public void listarOrcamentos() throws SQLException {
         boolean conectou = false;
 
+        ResultSet resultado = null;
+        Statement consulta = null;
         final String[] sql = database.readFile("ConsultarOrcamentos.sql");
         String textoSql = "";
-        conectou = database.conectar();
 
         for (String sql1 : sql) {
             textoSql = textoSql + "\n" + sql1;
         }
 
-        PreparedStatement consulta = database.prepararConsulta(textoSql);
+        conectou = database.conectar();
+        consulta = database.criarConsulta();
 
         try {
-            consulta.execute();
-            database.exibirResultado(consulta);
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            if (consulta != null) {
+            resultado = consulta.executeQuery(textoSql);
+
+            System.out.println("\nOrçamentos registrados:");
+            System.out.println("-----------------------------------------------------------\n");
+            while (resultado.next()) {
+                System.out.println("Itens de sistema: \n" + resultado.getString("itensDeSistema"));
+                System.out.println("Desenvolvedor: " + resultado.getString("desenvolvedor"));
+                System.out.println("Horas totais: " + resultado.getInt("horasTotais"));
+                System.out.println("Custo final: " + resultado.getFloat("custoFinal"));
+                System.out.println("\n-----------------------------------------------------------\n");
+                }
+            }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }finally {
+            if (resultado != null) {
                 try {
-                    consulta.close();
+                    resultado.close();
                 } catch (SQLException ex){
                     System.err.println(ex.getMessage());
                 }
@@ -155,6 +168,6 @@ public class Orcamento {
                 database.desconectar();
             }
         }
-    }
+        }
 
-}
+    }
