@@ -41,7 +41,7 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
         <img src="https://thumbs.dreamstime.com/b/gato-preto-bonito-com-olhos-amarelos-36144068.jpg" width="100px;" alt="Imagem de gato"/><br>
         <sub>
           <b>Tyler Lucas Ferreira de Oliveira</b><br>
-                    <b>125111344890</b>
+                    <b>RA: 125111344890</b>
         </sub>
       </a>
     </td>
